@@ -8,7 +8,7 @@ Interpret some simples rules in json to generate notifications
 npm test
 ```
 
-## Mutation Test - S
+## Mutation Test - Striker
 
 ```
 npx stryker run

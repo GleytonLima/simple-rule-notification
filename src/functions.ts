@@ -1,7 +1,6 @@
 import { AcaoStrategy, Operacao, OperacaoGrupo, RegistroAtividadeNotificacao } from ".";
 
 export const possuiRespostasComValorEsperado = (operacaoGrupo: OperacaoGrupo, registro: any): boolean => {
-    console.log("Inicio da verificação de respostas com valor esperado", operacaoGrupo, registro);
     if (!registro?.respostas || !operacaoGrupo.operacaoRaiz) {
         return false;
     }
@@ -9,64 +8,40 @@ export const possuiRespostasComValorEsperado = (operacaoGrupo: OperacaoGrupo, re
 };
 
 export const executar = (operacao: Operacao, respostas: any): boolean => {
-    console.info(`Inicio operacao ${operacao.id} e respostas ${JSON.stringify(respostas)}`);
-    let valorQueConstaNasRespostas = null;
-    if (respostas) {
-        const resposta = respostas[operacao.nomeCampo];
-        if (resposta) {
-            valorQueConstaNasRespostas = resposta;
-        }
-    }
+    const valorQueConstaNasRespostas = extrairValorResposta(operacao, respostas);
     if (operacao.comparadorEnum == null) {
-        console.error("O objeto não possui comparador definido");
         throw Error("Não foi definido comparador enum");
     }
-    var resultadoOperacaoAtual = executarOperacaoAtual(operacao, valorQueConstaNasRespostas);
-    if (operacao.operadorProximaOperacao != null) {
-        switch (operacao.operadorProximaOperacao) {
-            case "OR":
-                resultadoOperacaoAtual = resultadoOperacaoAtual || executar(operacao.proximaOperacao, respostas);
-                break;
-            case "AND":
-                resultadoOperacaoAtual = resultadoOperacaoAtual && executar(operacao.proximaOperacao, respostas);
-                break;
-            default:
-                break;
-        }
+    const resultadoOperacaoAtual = executarOperacaoAtual(operacao, valorQueConstaNasRespostas);
+    switch (operacao.operadorProximaOperacao) {
+        case "OR":
+            return resultadoOperacaoAtual || executar(operacao.proximaOperacao, respostas);
+        case "AND":
+            return resultadoOperacaoAtual && executar(operacao.proximaOperacao, respostas);
+        default:
+            return resultadoOperacaoAtual;
     }
-    console.info(`Fim da operacao ${operacao.id} e resultado ${resultadoOperacaoAtual}`);
-    return resultadoOperacaoAtual;
 };
 
 export const executarOperacaoAtual = (operacao: Operacao, valor: any): boolean => {
-    let resultadoOperacaoAtual = false;
     switch (operacao.comparadorEnum) {
         case "NULO":
-            resultadoOperacaoAtual = !valor;
-            break;
+            return !valor;
         case "IGUAL":
-            resultadoOperacaoAtual = valor == operacao.valor;
-            break;
+            return `${valor}` === `${operacao.valor}`;
         case "CONTEM":
-            resultadoOperacaoAtual = !!valor && !!operacao.valores.find((v) => v == valor);
-            break;
+            return !!valor && !!operacao.valores.find((v) => `${v}` === `${valor}`);
         case "MAIOR_QUE":
-            resultadoOperacaoAtual = !!valor && valor > operacao.valor;
-            break;
+            return !!valor && valor > operacao.valor;
         case "MENOR_QUE":
-            resultadoOperacaoAtual = !!valor && valor < operacao.valor;
-            break;
+            return !!valor && valor < operacao.valor;
         case "ENTRE_OS_VALORES":
-            resultadoOperacaoAtual = !!valor && valor >= operacao.valorInicial && valor <= operacao.valorFinal;
-            break;
+            return !!valor && valor >= operacao.valorInicial && valor <= operacao.valorFinal;
         case "NAO_NULO":
-            resultadoOperacaoAtual = !!valor;
-            break;
+            return !!valor;
         default:
-            console.warn("O objeto não possui execucao definida para o operador: ", operacao.comparadorEnum);
-            break;
+            return false;
     }
-    return resultadoOperacaoAtual;
 };
 
 export const buildAcaoStrategy = (operacaoGrupo: OperacaoGrupo, registro: any): AcaoStrategy => {
@@ -78,4 +53,10 @@ export const buildAcaoStrategy = (operacaoGrupo: OperacaoGrupo, registro: any): 
             return null;
         },
     };
+};
+export const extrairValorResposta = (operacao: Operacao, respostas: any) => {
+    if (respostas && respostas[operacao.nomeCampo]) {
+        return respostas[operacao.nomeCampo];
+    }
+    return null;
 };

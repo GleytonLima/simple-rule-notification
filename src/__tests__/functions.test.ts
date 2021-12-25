@@ -1,4 +1,11 @@
-import { buildAcaoStrategy, executarOperacaoAtual, Operacao, OperacaoGrupo, possuiRespostasComValorEsperado } from "..";
+import {
+    buildAcaoStrategy,
+    executarOperacaoAtual,
+    extrairValorResposta,
+    Operacao,
+    OperacaoGrupo,
+    possuiRespostasComValorEsperado,
+} from "..";
 
 const operacoesGruposSimples = [
     {
@@ -88,6 +95,19 @@ const operacoesGruposEncadeadoOr = [
         respostasPadrao: null,
     },
 ];
+
+test(`#extrairValorResposta deve extrair valor da resposta definida na operação`, () => {
+    const registro = { respostas: { ocorrencia: "teste" } };
+    const valorA = extrairValorResposta({ nomeCampo: "ocorrencia" } as Operacao, registro.respostas);
+    const valorB = extrairValorResposta({ nomeCampo: "nao_existe" } as Operacao, registro.respostas);
+    const valorC = extrairValorResposta({ nomeCampo: "ocorrencia" } as Operacao, {});
+    const valorD = extrairValorResposta({ nomeCampo: "ocorrencia" } as Operacao, null);
+
+    expect(valorA).toEqual("teste");
+    expect(valorB).toEqual(null);
+    expect(valorC).toEqual(null);
+    expect(valorD).toEqual(null);
+});
 
 test(`#Operacao.executar deve retornar CRIAR_REGISTRO_ATIVIDADE_NOTIFICACAO`, () => {
     var retornos: any[] = [];
@@ -201,10 +221,12 @@ test(`#executarOperacaoAtual NULO`, () => {
     const resultadoA = executarOperacaoAtual(operacao, null);
     const resultadoB = executarOperacaoAtual(operacao, undefined);
     const resultadoC = executarOperacaoAtual(operacao, "any");
+    const resultadoD = executarOperacaoAtual(operacao, false);
 
     expect(resultadoA).toBe(true);
     expect(resultadoB).toBe(true);
     expect(resultadoC).toBe(false);
+    expect(resultadoD).toBe(true);
 });
 
 test(`#executarOperacaoAtual IGUAL`, () => {
@@ -225,11 +247,13 @@ test(`#executarOperacaoAtual CONTEM`, () => {
     const resultadoB = executarOperacaoAtual(operacao, undefined);
     const resultadoC = executarOperacaoAtual(operacao, "5");
     const resultadoD = executarOperacaoAtual(operacao, 5);
+    const resultadoE = executarOperacaoAtual(operacao, "4");
 
     expect(resultadoA).toBe(false);
     expect(resultadoB).toBe(false);
     expect(resultadoC).toBe(true);
     expect(resultadoD).toBe(true);
+    expect(resultadoE).toBe(false);
 });
 
 test(`#executarOperacaoAtual MAIOR_QUE`, () => {
