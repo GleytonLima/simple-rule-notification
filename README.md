@@ -1,3 +1,5 @@
+[![Node.js CI](https://github.com/GleytonLima/simple-rule-notification/actions/workflows/node.js.yml/badge.svg)](https://github.com/GleytonLima/simple-rule-notification/actions/workflows/node.js.yml)
+
 # Simple Rule Notification
 
 Interpret some simples rules in json to generate notifications
