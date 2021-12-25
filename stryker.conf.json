@@ -11,5 +11,6 @@
         "enableFindRelatedTests": true
     },
     "checkers": ["typescript"],
-    "tsconfigFile": "tsconfig.json"
+    "tsconfigFile": "tsconfig.json",
+    "ignorePatterns": ["lib"]
 }
