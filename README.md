@@ -1,4 +1,4 @@
-[![Node.js CI](https://github.com/GleytonLima/simple-rule-notification/actions/workflows/node.js.yml/badge.svg)](https://github.com/GleytonLima/simple-rule-notification/actions/workflows/node.js.yml) [![Coverage Status](https://coveralls.io/repos/github/GleytonLima/simple-rule-notification/badge.svg?branch=main)](https://coveralls.io/github/GleytonLima/simple-rule-notification?branch=main)
+[![Node.js CI](https://github.com/GleytonLima/simple-rule-notification/actions/workflows/node.js.yml/badge.svg)](https://github.com/GleytonLima/simple-rule-notification/actions/workflows/node.js.yml) [![Coverage Status](https://coveralls.io/repos/github/GleytonLima/simple-rule-notification/badge.svg?branch=main)](https://coveralls.io/github/GleytonLima/simple-rule-notification?branch=main) [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FGleytonLima%2Fsimple-rule-notification%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/GleytonLima/simple-rule-notification/main)
 
 # Simple Rule Notification
 
