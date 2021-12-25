@@ -1,4 +1,4 @@
-[![Node.js CI](https://github.com/GleytonLima/simple-rule-notification/actions/workflows/node.js.yml/badge.svg)](https://github.com/GleytonLima/simple-rule-notification/actions/workflows/node.js.yml)
+[![Node.js CI](https://github.com/GleytonLima/simple-rule-notification/actions/workflows/node.js.yml/badge.svg)](https://github.com/GleytonLima/simple-rule-notification/actions/workflows/node.js.yml) [![Coverage Status](https://coveralls.io/repos/github/GleytonLima/simple-rule-notification/badge.svg?branch=main)](https://coveralls.io/github/GleytonLima/simple-rule-notification?branch=main)
 
 # Simple Rule Notification
 
