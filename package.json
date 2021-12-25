@@ -1,6 +1,6 @@
 {
     "name": "simple-rule-notification",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Interpret some simples rules in json to generate notifications",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
